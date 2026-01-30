@@ -1,0 +1,32 @@
+# Nim build artifacts
+nimcache/
+src/nimcache/
+*.exe
+*.o
+*.obj
+
+# EnvelopeDB Data & Recovery
+db_data/
+db_node_*/
+*.evp
+*.hint
+*.sst
+*.meta
+merge/
+
+# Binaries
+src/server
+src/raft
+src/stress_test
+src/lsm_verification
+src/final_test
+src/envelopedb
+
+# Tests & Temp
+professional_test/
+bucket_test/
+stress_test_db/
+lsm_verification_db/
+raft_test_db/
+temp/
+
