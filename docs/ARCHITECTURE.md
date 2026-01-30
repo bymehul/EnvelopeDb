@@ -10,8 +10,15 @@ EnvelopeDB uses a specialized hybrid architecture to maximize both write through
 
 ### 1. The Write Path (LSM-Tree)
 - **MemTable**: All incoming writes are initially stored in a **SkipList** MemTable. This provides $O(\log N)$ sorted insertion with no locking overhead.
-- **SSTables**: Once the MemTable reaches a size limit, it is flushed to a **Sorted String Table (SSTable)** on disk.
+- **SSTables**: Once the MemTable reaches a size limit, it is flushed to a **Sorted String Table (SSTable)** on disk. These files use the **`.sst`** extension.
 - **Bloom Filters**: Each SSTable contains a Bloom Filter in its header. This allows us to definitively say "this key is NOT in this file" without touching the disk, preventing unnecessary read IOPS.
+
+### 3. File Formats & Extensions
+EnvelopeDB uses specific extensions to manage its data layout:
+- **`.evp`**: Persistent **Write-Ahead Log (WAL)** files containing the raw append-only data.
+- **`.hint`**: **Index files** that map keys to their specific offsets in `.evp` files for $O(1)$ startup.
+- **`.sst`**: **LSM-Tree segments** containing sorted key-value pairs for high-capacity storage.
+- **`.meta`**: Internal **Raft state** (Current Term, Vote) to ensure cluster safety across restarts.
 
 ### 2. The Read Path (Zero-Copy mmap)
 - **Memory Mapping**: We use `mmap` for reading immutable data files. This allows the OS kernel to manage data caching directly, providing **hardware-level zero-copy speed**.
