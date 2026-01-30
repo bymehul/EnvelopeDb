@@ -2,6 +2,8 @@
 
 **EnvelopeDB** is a high-performance, distributed Key-Value storage engine implemented in Nim. It combines the simplicity and extreme write speed of Bitcask with the massive scalability of LSM-Trees and the high availability of the Raft consensus algorithm.
 
+[📜 MIT License](LICENSE) | [🏗️ Architecture Documentation](docs/ARCHITECTURE.md) | [📖 Usage Guide](docs/USAGE.md)
+
 ---
 
 ## 🔥 Key Features
